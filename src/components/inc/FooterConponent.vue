@@ -1,17 +1,12 @@
 <template>
-
-
-    <div class="footerContainer">11111123</div>
-
-
+  <div class="footerContainer">jang's copyright</div>
 </template>
-
-
 
 <style scoped>
 .footerContainer {
-
-    color: white
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 </style>

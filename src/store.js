@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     now: "",
     url: "",
     cnt: "",
+    fileList: [],
   },
   getters: {
     getBoardList: (state) => {
@@ -31,6 +32,9 @@ export const store = new Vuex.Store({
     },
     getBoardInfo: (state) => {
       return state.boardInfo;
+    },
+    getfileList: (state) => {
+      return state.fileList;
     },
   },
   mutations: {
@@ -64,6 +68,22 @@ export const store = new Vuex.Store({
     setCnt: function (state, cnt) {
       const data = cnt;
       state.cnt = data;
+    },
+    setFileList: function (state, fileList) {
+      const data = fileList;
+      const tmp = state.fileList.map((el) => el);
+      tmp.push(data);
+      state.fileList = tmp;
+    },
+    resetFileList: function (state, fileList) {
+      fileList;
+      let tmp = [];
+      state.fileList = tmp;
+    },
+    removeFileList: function (state, index) {
+      state.fileList.splice(index, 1);
+      let tmp = state.fileList.map((el) => el);
+      state.fileList = tmp;
     },
   },
   actions: {},

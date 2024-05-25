@@ -13,10 +13,10 @@ const changeId = async () => {
   // console.log(res.data);
   if (res.data.length != 0) {
     alert("로그인성공" + res.data + "님 안녕하세요");
-    store.commit("setUserId", res.data);
+    store.commit("setUserId", $userId.value);
     store.commit("setUrl", "main");
     router.push("/board");
- 
+
     // console.log(store.getters.getUserId);
   } else {
     alert("로그인실패");

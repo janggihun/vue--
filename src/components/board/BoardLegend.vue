@@ -38,7 +38,7 @@ onMounted(async () => {
 <template>
   <div class="boardContainer">
     <div class="legendContainer">
-      <div class="checkBox">체크</div>
+      <div class="checkBox">답변확인</div>
       <div class="cnt">
         <div>번호</div>
       </div>
@@ -99,7 +99,7 @@ onMounted(async () => {
   cursor: pointer;
   display: flex;
   justify-content: center;
-  width: 600px;
+  width: 400px;
 }
 .title:hover {
   color: black;
@@ -125,6 +125,6 @@ onMounted(async () => {
 .clicked {
   display: flex;
   justify-content: center;
-  width: 5%;
+  width: 7%;
 }
 </style>

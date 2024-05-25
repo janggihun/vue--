@@ -10,7 +10,8 @@ const goPage = (page) => {
     case "upLoad":
       if (userId.length == 0) {
         alert("로그인이 필요한 서비스입니다.");
-        router.push("/login");
+        store.commit("setUrl", "login");
+        router.push("/my");
       } else {
         store.commit("setUrl", "upLoad");
       }
@@ -29,7 +30,7 @@ const goPage = (page) => {
 
     <div class="barColumn">엘범</div>
     <div class="barColumn" @click="goPage('board')">일반게시판</div>
-    <div class="barColumn" @click="goPage('upLoad')">파일업로드</div>
+    <div class="barColumn" @click="goPage('upLoad')">게시글작성</div>
   </div>
 </template>
 
