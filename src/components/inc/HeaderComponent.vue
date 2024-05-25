@@ -1,13 +1,32 @@
 <script setup>
 import UserBox from '/src/components/inc/UserBox.vue';
+import router from "/src/router/index.js"
 
-
-
+const goPage = (where) => {
+    switch (where) {
+        case "info":
+            router.push("/info");
+            break;
+        case "register":
+            router.push("/register");
+            break;
+        case "notify":
+            router.push("/notify");
+            break;
+        case "board":
+            router.push("/board");
+            break;
+        case "comunity":
+            router.push("/comunity");
+            break;
+        default:
+            break;
+    }
+};
 
 </script>
 
 <template>
-
     <div class="headrContainer">
         <div class="userBox">
             <div class="userBox_top">
@@ -20,17 +39,15 @@ import UserBox from '/src/components/inc/UserBox.vue';
         <div class="clickBox">
             <div class="blank"></div>
 
-            <router-link to="/demo" class="Demo">장기훈데모 </router-link>
-            <router-link to="/info" class="routeBox">안내 </router-link>
-            <router-link to="/register" class="routeBox">모집</router-link>
-            <router-link to="/notify" class="routeBox">소식</router-link>
-            <router-link to="/board/1" class="routeBox">자료실</router-link>
-            <router-link to="/comunity" class="routeBox">커뮤니티</router-link>
+            <div class="Demo pannerSize">장기훈데모 </div>
+            <div class="routeBox" @click="goPage('info')">안내 </div>
+            <div class="routeBox" @click="goPage('register')">모집</div>
+            <div class="routeBox" @click="goPage('notify')">소식</div>
+            <div class="routeBox" @click="goPage('board')">자료실 </div>
+            <div class="routeBox" @click="goPage('comunity')">커뮤니티</div>
             <div class="blank"></div>
         </div>
     </div>
-
-
 </template>
 
 <style scoped>
@@ -50,6 +67,7 @@ import UserBox from '/src/components/inc/UserBox.vue';
 .headrContainer {
     font-family: 'YangjuByeolsanA1';
     display: flex;
+    width: 1910px;
     flex-direction: column;
 
 
@@ -67,24 +85,25 @@ import UserBox from '/src/components/inc/UserBox.vue';
 
     width: 12%;
     height: 50px;
-
+    border-radius: 20px;
     padding: 1px;
     cursor: pointer;
+    transition: all 0.5s;
+}
+
+.routeBox:hover {
+
+    border-radius: 20px;
+
+    background-color: rgba(0, 0, 0, 0.356)
 }
 
 .blank {
-
     width: 15%;
-
-
 }
 
 .userBox {
-
-
     height: 50%;
-
-
 }
 
 .clickBox {

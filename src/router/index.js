@@ -1,24 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import BoardView from "../views/BoardView.vue";
-import LoginView from "../views/LoginView.vue";
+import MyView from "../views/MyView.vue";
 import BoardMain from "../views/BoardMain.vue";
 import BoardCreate from "../views/BoardCreate.vue";
 import BoardDetail from "../views/BoardDetail.vue";
 import BoardUpdate from "../views/BoardUpdate.vue";
 import BoardReply from "../views/BoardReply.vue";
- 
+
 const routes = [
   {
-    path: "/",
-    name: "main",
+    path: "/board",
+    name: "board",
     component: BoardMain,
   },
-  {
-    path: "/board/:now",
-    name: "board",
-    component: BoardView,
-  },
+
   {
     path: "/board/create",
     name: "boardCreate",
@@ -42,7 +37,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: LoginView,
+    component: MyView,
   },
 ];
 

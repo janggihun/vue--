@@ -15,7 +15,7 @@ import HeaderComponent from './components/inc/HeaderComponent.vue';
 import FooterConponent from './components/inc/FooterConponent.vue';
 
 </script>
-<style scoped>
+<style>
 @font-face {
   font-family: 'SejonghospitalBold';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/SejonghospitalBold.woff2') format('woff2');
@@ -41,6 +41,7 @@ body {
 
 .bannerImg {
   background-color: cadetblue;
+  width: 1910px;
   height: 200px;
 }
 
@@ -78,7 +79,7 @@ body {
 .Header {
 
 
-  width: 100%;
+  width: 1910px;
   height: 10%;
 
   background-color: rgba(0, 0, 0, 0.141)

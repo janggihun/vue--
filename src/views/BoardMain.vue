@@ -25,12 +25,13 @@ import BoardFrame from '/src/components/board/BoardFrame.vue';
 
 <style scoped>
 .mainContainer {
+
     -ms-user-select: none;
     -moz-user-select: -moz-none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     user-select: none;
-    width: inherit;
+    width: 1910px;
     height: inherit;
     display: flex;
     flex-direction: row;

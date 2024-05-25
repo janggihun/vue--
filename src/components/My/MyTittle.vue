@@ -2,9 +2,9 @@
 
 <template>
   <div class="titleContainer">
-    <div class="state">일반 게시판</div>
+    <div class="state">마이페이지</div>
     <div class="blank"></div>
-    <div class="step">홈 > 커뮤니티 >일반게시판</div>
+    <div class="step">홈 > 마이페이지</div>
   </div>
 </template>
 

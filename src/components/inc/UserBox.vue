@@ -1,6 +1,26 @@
 <script setup>
 
+import router from "/src/router/index.js"
 
+const goPage = (where) => {
+    switch (where) {
+        case "home":
+            router.push("/");
+            break;
+        case "login":
+            router.push("/login");
+            break;
+        case "signUp":
+            router.push("/signUp");
+            break;
+        case "findUserInfo":
+            router.push("/findUserInfo");
+            break;
+
+        default:
+            break;
+    }
+};
 
 </script>
 
@@ -10,11 +30,11 @@
 
     <div class="userBox">
         <div class="blank"></div>
-        <div class="controllerBox">홈</div>
-        <div class="controllerBox">로그인</div>
-        <div class="controllerBox">회원가입</div>
-        <div class="controllerBox"> 아이디/비밀번호찾기</div>
-        <div class="controllerBox">원격지원</div>
+        <div class="controllerBox" @click="goPage('home')">홈</div>
+        <div class="controllerBox" @click="goPage('login')">로그인</div>
+        <div class="controllerBox" @click="goPage('signUp')">회원가입</div>
+        <div class="controllerBox" @click="goPage('findUserInfo')"> 아이디/비밀번호찾기</div>
+        <div class="controllerBox" @click="goPage('/')">원격지원</div>
     </div>
 
 
