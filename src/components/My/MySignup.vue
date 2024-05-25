@@ -1,5 +1,43 @@
 <script setup>
 import MyTittle from "/src/components/My/MyTittle.vue";
+import router from "@/router";
+import { store } from "@/store";
+import axios from "axios";
+import { defineModel } from "vue";
+
+const nowId = defineModel();
+const signUpId = async () => {
+  const $flag = document.getElementById("flag");
+  const $userId = document.getElementById("userId");
+  const $userPw = document.getElementById("userPw");
+  console.log($flag.value);
+
+  const res = await axios.post("/insert", {
+    userId: $userId.value,
+    userPw: $userPw.value,
+  });
+  // console.log(res.data);
+  if (res.data == 1) {
+    alert("회원가입 성공");
+    store.commit("setUrl", "login");
+    router.push("/my");
+  } else {
+    alert("회원가입 실패");
+  }
+};
+
+const checkId = async (e) => {
+  nowId.value = e.target.value;
+  const res = await axios.post("/signup/idcheck", {
+    userId: e.target.value,
+  });
+  // console.log(res.data);
+  if (res.data == 0) {
+    nowId.value = "회원가입가능";
+  } else {
+    nowId.value = "아이디중복";
+  }
+};
 </script>
 
 <template>
@@ -13,15 +51,15 @@ import MyTittle from "/src/components/My/MyTittle.vue";
       <div class="loginBox">
         <div class="column">
           <div class="left">아이디</div>
-          <div><input type="text" id="userId" value="" /></div>
+          <div><input type="text" id="userId" value="" @input="checkId" /></div>
         </div>
-        <div >아이디입력</div>
+        <div id="flag">{{ nowId }}</div>
         <div class="column">
           <div class="left">패스워드</div>
           <div><input type="password" id="userPw" value="" /></div>
         </div>
 
-        <div class="column"><button @click="changeId">회원가입</button></div>
+        <div class="column"><button @click="signUpId">회원가입</button></div>
       </div>
     </div>
     <div class="viewPoint">여기</div>
