@@ -87,6 +87,7 @@ export default {
     console.log(tmpMap)
     this.axios({
       method: "post",
+      
       url: '/board/boardInfo',
       data: tmpMap
     }).then(res => {

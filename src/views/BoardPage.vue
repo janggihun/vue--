@@ -14,7 +14,7 @@
                 </a>
             </li>
 
-
+ 
 
             <li class="page-item" v-for="(p, i) in pageList" :key="i" @click="boardMove(p)"><a class="page-link"
                     href="#">{{ p }}</a></li>

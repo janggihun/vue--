@@ -6,16 +6,6 @@ import { useStore } from 'vuex';
 const now = 1
 const count = 10
 
-
-// onServerPrefetch(async () => {
-
-//     const res = await axios.post("/board/boardInfo", {
-//         now: now, count: count
-//     })
-//     boardList = await res.data
-//     console.log(boardList)
-
-// })
 const store = useStore()
 const boardList = computed(() => store.state.boardList);
 onMounted(async () => {
@@ -24,20 +14,8 @@ onMounted(async () => {
     })
 
     store.commit("setBoardList", await res.data)
-    console.log(store.boardList)
 
 })
-// const getBoardList = async (now, count) => {
-
-//     const res = await axios.post("/board/boardInfo", {
-//         now: now, count: count
-//     })
-
-//     boardList = await res.data
-//     console.log(boardList)
-
-// }
-// getBoardList(now, count)
 
 </script>
 
@@ -75,29 +53,18 @@ onMounted(async () => {
     </div>
 </template>
 <style scoped>
-.boardContainer {}
-
 .rowContainer {
-
-
     align-items: center;
     display: flex;
-
     height: 50px;
-
     border-bottom: 1px solid black;
-
 }
 
 .legendContainer {
-
-
     align-items: center;
     display: flex;
-
     height: 70px;
     background-color: rgba(0, 0, 0, 0.164);
-
     border-bottom: 1px solid black;
     border-top: 1px solid black;
 }
