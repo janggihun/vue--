@@ -15,7 +15,7 @@ const routes = [
   //   component: BoardMain,
   // },
   {
-    path: "/login",
+    path: "/My",
     name: "login",
     component: MyView,
   },

@@ -1,10 +1,12 @@
 <script setup>
 import { computed } from "vue";
+import { store } from "/src/store.js";
 import BoardSideBar from "/src/components/board/BoardSideBar.vue";
 import BoardQuick from "/src/components/board/BoardQuick.vue";
 import BoardFrame from "/src/components/board/BoardFrame.vue";
 import BoardUpload from "/src/components/board/BoardUpload.vue";
-import { store } from "/src/store.js";
+import BoardDetail from "/src/components/board/BoardDetail.vue";
+
 
 const url = computed(() => store.state.url);
 store.commit("setUrl", "main");
@@ -20,7 +22,7 @@ store.commit("setUrl", "main");
       <BoardFrame v-if="url == 'main'"></BoardFrame>
 
       <BoardUpload v-else-if="url == 'upLoad'"></BoardUpload>
-
+      <BoardDetail v-else-if="url == 'detail'"></BoardDetail>
       <BoardQuick />
     </div>
     <div class="blank"></div>

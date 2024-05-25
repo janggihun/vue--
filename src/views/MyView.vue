@@ -2,6 +2,11 @@
 import MySideBar from "/src/components/My/MySideBar.vue";
 import MyQuick from "/src/components/My/MyQuick.vue";
 import MyFrame from "/src/components/My/MyFrame.vue";
+import MySignup from "/src/components/My/MySignup.vue";
+import { computed } from "vue";
+import { store } from "/src/store.js";
+
+const url = computed(() => store.state.url);
 </script>
 
 <template>
@@ -10,8 +15,9 @@ import MyFrame from "/src/components/My/MyFrame.vue";
     <div class="boardBox">
       <MySideBar />
       <!-- // BoardFrame 내용물 렌더시 변경 -->
-      <MyFrame></MyFrame>
 
+      <MyFrame v-if="url == 'login'"></MyFrame>
+      <MySignup v-if="url == 'signUp'"></MySignup>
       <MyQuick />
     </div>
     <div class="blank"></div>

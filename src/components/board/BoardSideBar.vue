@@ -30,8 +30,6 @@ const goPage = (page) => {
     <div class="barColumn">엘범</div>
     <div class="barColumn" @click="goPage('board')">일반게시판</div>
     <div class="barColumn" @click="goPage('upLoad')">파일업로드</div>
-    <div class="barColumn">한줄게시판</div>
-    <div class="barColumn">등등게시판</div>
   </div>
 </template>
 

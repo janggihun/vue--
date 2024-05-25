@@ -7,10 +7,12 @@ const goPage = (where) => {
       router.push("/");
       break;
     case "login":
-      router.push("/login");
+      store.commit("setUrl", "login");
+      router.push("/my");
       break;
     case "signUp":
-      router.push("/signUp");
+      store.commit("setUrl", "signUp");
+      router.push("/my");
       break;
     case "findUserInfo":
       router.push("/findUserInfo");

@@ -2,16 +2,6 @@
 import router from "@/router";
 import { store } from "@/store";
 import axios from "axios";
-// const userId = ""
-// import axios from "axios";
-
-// let tmp = e.target.value;
-// console.log(tmp);
-// const check = async () => {
-//   const res = await axios.get("/login/idcheck/" + tmp);
-//   console.log(res.data);
-// };
-// check();
 
 const changeId = async () => {
   const $userId = document.getElementById("userId");
@@ -25,8 +15,8 @@ const changeId = async () => {
     alert("로그인성공" + res.data + "님 안녕하세요");
     store.commit("setUserId", res.data);
     store.commit("setUrl", "main");
-    router.push("/board/main");
-
+    router.push("/board");
+ 
     // console.log(store.getters.getUserId);
   } else {
     alert("로그인실패");

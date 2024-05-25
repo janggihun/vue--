@@ -6,11 +6,12 @@ export const store = new Vuex.Store({
     boardList: [],
     pageList: [],
     page: {},
-    tmpMap: {},
+    boardInfo: {},
     count: 10,
     userId: "",
     now: "",
     url: "",
+    cnt: "",
   },
   getters: {
     getBoardList: (state) => {
@@ -24,6 +25,12 @@ export const store = new Vuex.Store({
     },
     getUserId: (state) => {
       return state.userId;
+    },
+    getCnt: (state) => {
+      return state.cnt;
+    },
+    getBoardInfo: (state) => {
+      return state.boardInfo;
     },
   },
   mutations: {
@@ -43,8 +50,9 @@ export const store = new Vuex.Store({
       const data = pageList;
       state.pageList = data;
     },
-    setTmpMapList: function (state, tmpMap) {
-      state.tmpMap = tmpMap;
+    setBoardInfo: function (state, boardInfo) {
+      const data = boardInfo;
+      state.boardInfo = data;
     },
     setNow: function (state, now) {
       state.now = now;
@@ -52,6 +60,10 @@ export const store = new Vuex.Store({
     setUrl: function (state, url) {
       const data = url;
       state.url = data;
+    },
+    setCnt: function (state, cnt) {
+      const data = cnt;
+      state.cnt = data;
     },
   },
   actions: {},
