@@ -10,6 +10,7 @@ export const store = new Vuex.Store({
     count: 10,
     userId: "",
     now: "",
+    url: "",
   },
   getters: {
     getBoardList: (state) => {
@@ -21,6 +22,9 @@ export const store = new Vuex.Store({
     getPage: (state) => {
       return state.page;
     },
+    getUserId: (state) => {
+      return state.userId;
+    },
   },
   mutations: {
     setBoardList: function (state, list) {
@@ -28,7 +32,8 @@ export const store = new Vuex.Store({
       state.boardList = data;
     },
     setUserId: function (state, userId) {
-      state.userId = userId;
+      const data = userId;
+      state.userId = data;
     },
     setPage: function (state, page) {
       const data = page;
@@ -43,6 +48,10 @@ export const store = new Vuex.Store({
     },
     setNow: function (state, now) {
       state.now = now;
+    },
+    setUrl: function (state, url) {
+      const data = url;
+      state.url = data;
     },
   },
   actions: {},

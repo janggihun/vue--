@@ -1,53 +1,53 @@
 <script setup>
-import BoardSideBar from '/src/components/board/BoardSideBar.vue';
-import BoardQuick from '/src/components/board/BoardQuick.vue';
-import BoardFrame from '/src/components/board/BoardFrame.vue';
+import { computed } from "vue";
+import BoardSideBar from "/src/components/board/BoardSideBar.vue";
+import BoardQuick from "/src/components/board/BoardQuick.vue";
+import BoardFrame from "/src/components/board/BoardFrame.vue";
+import BoardUpload from "/src/components/board/BoardUpload.vue";
+import { store } from "/src/store.js";
 
-
-
+const url = computed(() => store.state.url);
+store.commit("setUrl", "main");
 </script>
 
-
 <template>
-    <div class="mainContainer">
-        <div class="blank"></div>
-        <div class="boardBox">
-            <BoardSideBar />
-            <!-- // BoardFrame 내용물 렌더시 변경 -->
-            <BoardFrame></BoardFrame>
+  <div class="mainContainer">
+    <div class="blank"></div>
+    <div class="boardBox">
+      <BoardSideBar />
+      <!-- // BoardFrame 내용물 렌더시 변경 -->
 
-            <BoardQuick />
-        </div>
-        <div class="blank"></div>
+      <BoardFrame v-if="url == 'main'"></BoardFrame>
+
+      <BoardUpload v-else-if="url == 'upLoad'"></BoardUpload>
+
+      <BoardQuick />
     </div>
+    <div class="blank"></div>
+  </div>
 </template>
-
 
 <style scoped>
 .mainContainer {
-
-    -ms-user-select: none;
-    -moz-user-select: -moz-none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    user-select: none;
-    width: 1910px;
-    height: inherit;
-    display: flex;
-    flex-direction: row;
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  width: 1910px;
+  height: inherit;
+  display: flex;
+  flex-direction: row;
 }
 
-
-
 .blank {
-
-    width: 10%;
+  width: 10%;
 }
 
 .boardBox {
-    height: 800px;
-    width: 80%;
-    display: flex;
-    flex-direction: row;
+  height: 800px;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
 }
 </style>
