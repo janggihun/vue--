@@ -1,33 +1,29 @@
 <script setup>
-/*
-now : 현재 페이지 번호
-count : 행수
-*/
 import axios from "axios";
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-
+/*
+now : 현재 페이지 번호
+count : 행수
+*/
 const now = 1;
 const count = 10;
 
 const store = useStore();
-
 const boardList = computed(() => store.state.boardList);
 
 /* 
+1. b_cnt : 게시판 번호
 
-b_cnt : 게시판 번호
+2. get_boardInfo
 
-method : get_boardInfo
+3. (b_cnt) -> RestApi
 
-(b_cnt) -> RestApi
-
-- Store 저장
- 1. 현재 url
- 2. 게시판 번호
- 3. 번호에 해당 하는 정보 
-
+4. Store 저장
+  - 현재 url
+  - 게시판 번호
+  - 번호에 해당 하는 정보 
 */
 
 const get_boardInfo = async (b_Cnt) => {
@@ -41,23 +37,18 @@ const get_boardInfo = async (b_Cnt) => {
 };
 
 /*
-= onMounted 
+2. onMounted 
 
-now: 페이지 번호
-count :행수
+3. (now, count) -> RestAPI
 
--게시판 정보 요청
-(now, count) -> RestAPI
-
--Store에 저장
-RestAPI -> Store
+4. 게시판 정보 요청
+    -Store에 저장
+    axios post : 쿼리스트링 불가 get -> post로 변경 
 */
 onMounted(async () => {
-  const res = await axios.get("/board/boardInfo", {
-    params: {
-      now: now,
-      count: count,
-    },
+  const res = await axios.post("/board/boardInfo", {
+    now: now,
+    count: count,
   });
 
   store.commit("setBoardList", await res.data);

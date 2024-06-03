@@ -4,22 +4,46 @@ import { computed, ref } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
 import router from "@/router";
-
+/*
+boardMap : 게시글 정보
+b_writer : 글쓴이
+attachedList : 첨부리스트
+userId: 로그인 아이디
+update : 업데이트 확인용 ref
+reply : 관리자 답변내용
+inputData : 업데이트시 게시글 변경 내용
+*/
 const store = useStore();
 const boardInfo = store.getters.getBoardInfo;
 const boardMap = boardInfo.boardMap;
 const b_writer = boardMap.b_writer;
 const attachedList = boardInfo.attachedList;
 const userId = store.getters.getUserId;
-
 const update = ref(0);
+let reply = "";
+let inputData = "";
+
 const updateCheck = computed(() => {
   return update;
 });
 console.log(updateCheck);
+/*
+1.
+cnt : 게시글번호 
+num : 첨부번호 
+title : 첨부타이틀
 
-const downloadFile = (a, b, c) => {
-  let fileName = a + "_" + b + "_" + c;
+2. downloadFile
+
+3. (cnt, num , title) -> RestAPI -> start client download
+
+4. 파일 다운로드
+
+  - 고유저장된 이름을 찾아 download를 시작 
+
+*/
+const downloadFile = (cnt, num, title) => {
+  const fileName = cnt + "_" + num + "_" + title;
   console.log(fileName);
 
   const fileUrl = "/board/download/" + fileName;
@@ -31,19 +55,47 @@ const downloadFile = (a, b, c) => {
     const newUrl = window.URL.createObjectURL(new Blob([res.data]));
     const atag = document.createElement("a");
     atag.href = newUrl;
-    atag.download = c;
+    atag.download = title;
     atag.click();
     atag.remove();
     window.URL.revokeObjectURL(newUrl);
   });
 };
-let reply = "";
+
+/*
+1. 
+e : 윈도우이벤트
+
+2. reply_coment
+
+3. (e) -> value
+
+4. input 값 
+*/
 const reply_coment = (e) => {
   reply = e.target.value;
-  console.log(e.target.value);
 };
+
+/*
+1.
+  b_Cnt : 게시글번호
+  b_charge : 답변자
+  b_answer : 답변내용
+  b_replyDate : 답변날짜
+
+2. replySave
+
+3. ()-> RestAPI
+
+4. 답변 업데이트
+
+  - vue의 양뱡향 통신으로 인해 변수값이 자동 저장
+  - 게시글에 답변 저장
+  - 저장후 라우팅
+*/
+
 const replySave = () => {
-  let url = "/board/reply";
+  const url = "/board/reply";
   let data = {
     b_Cnt: store.getters.getCnt,
     b_charge: userId,
@@ -61,19 +113,40 @@ const replySave = () => {
   });
 };
 
+/*
+2. updateValidation
+
+3. () -> alert
+
+4.  유효성검사
+
+  update.value값이 1인경우 computed를 통해 리렌더링 시작
+  업데이트 유효성 검사
+  첨부파일변경 >> 첨부 파일변경은 데이터 수정 시에 안하는 경우가 많아 제외
+  
+*/
+
 const updateValidation = () => {
-  //업데이트 유효성
   if (b_writer === userId) {
-    //확인중
     update.value = 1;
   } else {
     alert("변경은 본인만 가능합니다.");
   }
-  //첨부파일변경 >> 첨부 파일은 수정 시에 안하는 경우가 많으므로 할지 말지 고민
 };
-let inputData = "";
+
+/*
+1.
+  b_Cnt :게시글 번호
+  b_contents : 변경된 게시글 내용
+
+2. updatePage
+
+3. ()=>RestAPI
+
+4. 업데이트
+
+*/
 const updatePage = async () => {
-  console.log(store.getters.getCnt);
   const res = await axios.post("/board/update", {
     b_Cnt: store.getters.getCnt,
     b_contents: inputData,
@@ -83,8 +156,20 @@ const updatePage = async () => {
     router.push("/board");
   }
 };
+/*
+1.
+  b_Cnt : 게시글 번호
+  b_writer : 작성자
+
+2. deletePage
+
+3. (b_Cnt) -> RestAPI
+
+4. 삭제
+
+  - 로그인 아이디와 작성자가 같을시 삭제 요청
+*/
 const deletePage = async (b_Cnt) => {
-  //삭제 메서드 구현
   if (b_writer === userId) {
     const res = await axios.delete("/board/delete", {
       params: {
@@ -93,11 +178,10 @@ const deletePage = async (b_Cnt) => {
       },
     });
     if (res.data === 1) {
-      //삭제성공
       alert("삭제성공");
       router.push("/board");
     } else {
-      //삭제실패
+      alert("전송실패, 관리자에게 문의하세요");
     }
   } else {
     alert("작성자만 삭제 가능합니다.");
@@ -106,8 +190,6 @@ const deletePage = async (b_Cnt) => {
 </script>
 
 <template>
-  <!-- 보드메인 -->
-
   <div class="boardMain">
     <div class="detailContanier">
       <div class="detailTitle">

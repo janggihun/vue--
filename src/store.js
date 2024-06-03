@@ -11,10 +11,8 @@ count : 행수
 userId : 로그인아이디
 now : 현재 게시글번호
 url : 내부 url
-cnt : ?
+cnt : 페이지 번호
 fileList : 첨부파일 리스트
-
-
 
  */
 

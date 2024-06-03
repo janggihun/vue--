@@ -5,7 +5,11 @@ import MyFrame from "/src/components/My/MyFrame.vue";
 import MySignup from "/src/components/My/MySignup.vue";
 import { computed } from "vue";
 import { store } from "/src/store.js";
+/* 
+login : 로그인
 
+signUp : 회원가입
+ */
 const url = computed(() => store.state.url);
 </script>
 

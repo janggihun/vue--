@@ -8,23 +8,12 @@ import BoardUpload from "/src/components/board/BoardUpload.vue";
 import BoardDetail from "/src/components/board/BoardDetail.vue";
 
 /* 
-// url
-
-내용 : 자식 컴포넌트에서 Store-url 변경시 현재 컴포넌트에서 리렌더링을 실행
-
-이유 : url 노출을 막기 위해 내부적으로 url을 조정하여 컴포넌트 별로 렌더링실행
-
 main : 게시판
 
 upLoad : 글쓰기
 
 detail : 세부내용
 
-// css
-
-모든 스타일은 스코프를 통해서 컴포넌트간의 css의 중첩상황을 제거
-
-공통 css 관리 - ./style/css_global.css 
  */
 const url = computed(() => store.state.url);
 store.commit("setUrl", "main");

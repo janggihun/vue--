@@ -4,8 +4,22 @@ import router from "@/router";
 import { store } from "@/store";
 import axios from "axios";
 import { defineModel } from "vue";
-
+/*
+  nowId : input 양방향 데이터
+*/
 const nowId = defineModel();
+
+/*
+1.
+  userId : 아이디
+  userPw : 비밀번호
+
+2. signUpId
+
+3. (userId , userPw) -> RestAPI
+
+4. 회원가입
+*/
 const signUpId = async () => {
   const $flag = document.getElementById("flag");
   const $userId = document.getElementById("userId");
@@ -16,7 +30,7 @@ const signUpId = async () => {
     userId: $userId.value,
     userPw: $userPw.value,
   });
-  // console.log(res.data);
+
   if (res.data == 1) {
     alert("회원가입 성공");
     store.commit("setUrl", "login");
@@ -25,13 +39,23 @@ const signUpId = async () => {
     alert("회원가입 실패");
   }
 };
+/*
+1.
+  e : 윈도우 이벤트
+  nowId : input 데이터
 
+2. checkId
+
+3. (nowId)-> RestAPI
+
+4. 회원가입 아이디 중복확인
+
+*/
 const checkId = async (e) => {
   nowId.value = e.target.value;
   const res = await axios.post("/signup/idcheck", {
     userId: e.target.value,
   });
-  // console.log(res.data);
   if (res.data == 0) {
     nowId.value = "회원가입가능";
   } else {

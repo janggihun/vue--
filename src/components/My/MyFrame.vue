@@ -1,9 +1,6 @@
 <script setup>
 import MyTittle from "/src/components/My/MyTittle.vue";
 import MyLogin from "/src/components/My/MyLogin.vue";
-
-
-
 </script>
 
 <template>

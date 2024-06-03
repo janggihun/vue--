@@ -1,9 +1,22 @@
 <script setup>
 import router from "/src/router/index.js";
 import { store } from "@/store";
-const goPage = (page) => {
+
+/* 
+1. 
+  where : 해당 url
+  userId : 로그인 아이디
+2. goPage
+
+3. (where) -> router
+
+4.  해당 url로 이동
+    필요시 Store-url 적용
+*/
+
+const goPage = (where) => {
   const userId = store.getters.getUserId;
-  switch (page) {
+  switch (where) {
     case "board":
       store.commit("setUrl", "main");
       break;
@@ -15,7 +28,6 @@ const goPage = (page) => {
       } else {
         store.commit("setUrl", "upLoad");
       }
-
       break;
     default:
       break;

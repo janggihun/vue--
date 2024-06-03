@@ -3,6 +3,20 @@ import router from "@/router";
 import { store } from "@/store";
 import axios from "axios";
 
+/*
+1.
+  userId  : 로그인아이디
+  userPw  : 비밀번호
+
+2. changeId
+
+3. (userId, userPw) -> RestAPI 
+
+4. 로그인
+
+  로그인 정보 -> Store 저장 
+*/
+
 const changeId = async () => {
   const $userId = document.getElementById("userId");
   const $userPw = document.getElementById("userPw");
@@ -10,14 +24,12 @@ const changeId = async () => {
     userId: $userId.value,
     userPw: $userPw.value,
   });
-  // console.log(res.data);
+
   if (res.data.length != 0) {
     alert("로그인성공" + res.data + "님 안녕하세요");
     store.commit("setUserId", $userId.value);
     store.commit("setUrl", "main");
     router.push("/board");
-
-    // console.log(store.getters.getUserId);
   } else {
     alert("로그인실패");
   }

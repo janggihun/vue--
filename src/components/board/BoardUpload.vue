@@ -3,22 +3,76 @@ import { computed } from "vue";
 import dayjs from "dayjs";
 import { store } from "/src/store.js";
 import axios from "axios";
-store.commit("resetFileList", "");
-const onFileChange = (e) => {
-  console.log(e.target.files[0]);
+/*
 
+title : 글 제목
+contents : 글 내용
+
+*/
+let title = "";
+let contents = "";
+
+const fileList = computed(() => store.getters.getfileList);
+store.commit("resetFileList", "");
+
+/*
+
+1. 
+  e : 윈도우이벤트
+
+2. onFileChange
+
+3. (e) -> Store
+
+4. 파일리스트 프론트에 저장
+
+*/
+const onFileChange = (e) => {
+  // console.log(e.target.files[0]);
   store.commit("setFileList", e.target.files[0]);
 };
-let title = "";
+
+/*
+1. 
+  e : 윈도우이벤트
+
+2. input_title
+
+3. (e) -> value
+
+4. 변수에 값 저장
+
+*/
 const input_title = (e) => {
   title = e.target.value;
 };
-let contents = "";
+/*
+1. 
+  e : 윈도우이벤트
+
+2. input_contents
+
+3. (e) -> value
+
+4. 변수에 값 저장
+
+*/
 const input_contents = (e) => {
   contents = e.target.value;
 };
-const fileList = computed(() => store.getters.getfileList);
 
+/*
+1. 
+  fileList : 첨부파일 리스트
+  formData : Form객체
+  axios 타입 : multipart/form-data 
+2. input_contents
+
+3. (formData) -> RestApi
+
+4. 첨부파일 저장
+
+*/
 const registerAttached = () => {
   const fileList = store.getters.getfileList;
   let formData = new FormData();
@@ -45,14 +99,26 @@ const registerAttached = () => {
     });
 };
 
+/*
+
+1. 
+
+  i : 첨부파일 인덱스
+
+2. remove
+
+3. (i) -> Store
+
+4. 프론트에 저장된 첨푸파일목록 삭제
+
+*/
+
 const remove = (i) => {
   store.commit("removeFileList", i);
 };
 </script>
 
 <template>
-  <!-- 보드메인 -->
-
   <div class="boardMain">
     <div class="detailContanier">
       <div class="detailTitle">
