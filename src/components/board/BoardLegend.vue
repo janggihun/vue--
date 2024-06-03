@@ -1,34 +1,63 @@
 <script setup>
-// const userId = ""
+/*
+now : 현재 페이지 번호
+count : 행수
+*/
 import axios from "axios";
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
+
 const now = 1;
 const count = 10;
 
 const store = useStore();
+
 const boardList = computed(() => store.state.boardList);
 
-const get_boardInfo = async (cnt) => {
+/* 
+
+b_cnt : 게시판 번호
+
+method : get_boardInfo
+
+(b_cnt) -> RestApi
+
+- Store 저장
+ 1. 현재 url
+ 2. 게시판 번호
+ 3. 번호에 해당 하는 정보 
+
+*/
+
+const get_boardInfo = async (b_Cnt) => {
   const res = await axios.post("/board/detail", {
-    b_Cnt: cnt,
+    b_Cnt: b_Cnt,
   });
-  console.log(res.data);
   store.commit("setUrl", "detail");
-  store.commit("setCnt", cnt);
+  store.commit("setCnt", b_Cnt);
   store.commit("setBoardInfo", res.data);
   router.push("/board");
 };
 
-const boardDetail = (cnt) => {
-  get_boardInfo(cnt);
-};
+/*
+= onMounted 
 
+now: 페이지 번호
+count :행수
+
+-게시판 정보 요청
+(now, count) -> RestAPI
+
+-Store에 저장
+RestAPI -> Store
+*/
 onMounted(async () => {
-  const res = await axios.post("/board/boardInfo", {
-    now: now,
-    count: count,
+  const res = await axios.get("/board/boardInfo", {
+    params: {
+      now: now,
+      count: count,
+    },
   });
 
   store.commit("setBoardList", await res.data);
@@ -49,11 +78,12 @@ onMounted(async () => {
       <div class="clicked">조회수</div>
     </div>
     <div class="rowContainer" v-for="(detail, i) in boardList" :key="i">
-      <div class="checkBox">체크</div>
+      <div class="checkBox" v-if="detail.b_charge === 'admin'">답변완료</div>
+      <div class="checkBox" v-else>대기중</div>
       <div class="cnt">
         <div>{{ detail.b_Cnt }}</div>
       </div>
-      <div class="title" @click="boardDetail(detail.b_Cnt)">{{ detail.b_title }}</div>
+      <div class="title" @click="get_boardInfo(detail.b_Cnt)">{{ detail.b_title }}</div>
       <div class="writter">{{ detail.b_writer }}</div>
       <div class="date">{{ detail.b_date }}</div>
       <div class="file">
@@ -62,10 +92,13 @@ onMounted(async () => {
       </div>
       <div class="clicked">조회수</div>
     </div>
-    <!-- //for문 -->
   </div>
 </template>
 <style scoped>
+.checkBoxContainer {
+  width: 50px;
+  height: inherit;
+}
 .rowContainer {
   color: gray;
   align-items: center;
@@ -84,9 +117,11 @@ onMounted(async () => {
 }
 
 .checkBox {
+  align-items: center;
   display: flex;
   justify-content: center;
   width: 10%;
+  height: inherit;
 }
 
 .cnt {

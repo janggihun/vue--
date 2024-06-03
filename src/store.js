@@ -1,5 +1,22 @@
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
+/*
+전역변수 
+
+boardList : 게시판 리스트
+pageList : 페이징 리스트
+page : 현재 페이지
+boardInfo : boardList의 n번째 맵
+count : 행수
+userId : 로그인아이디
+now : 현재 게시글번호
+url : 내부 url
+cnt : ?
+fileList : 첨부파일 리스트
+
+
+
+ */
 
 export const store = new Vuex.Store({
   state: {

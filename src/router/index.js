@@ -9,11 +9,6 @@ const routes = [
     name: "board",
     component: BoardMain,
   },
-  // {
-  //   path: "/board/upLoad",
-  //   name: "board",
-  //   component: BoardMain,
-  // },
   {
     path: "/My",
     name: "login",

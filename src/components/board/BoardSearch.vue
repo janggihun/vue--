@@ -6,8 +6,6 @@ import BoardPage from '/src/components/board/BoardPage.vue';
 </script>
 <template>
 
-
-
     <div class="searchContainer">
 
         <div>
