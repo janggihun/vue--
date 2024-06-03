@@ -3,52 +3,38 @@ import axios from "axios";
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-/*
-now : 현재 페이지 번호
-count : 행수
-*/
-const now = 1;
-const count = 10;
+
+const nowPage = 1;
+const boardRowCount = 10;
 
 const store = useStore();
 const boardList = computed(() => store.state.boardList);
 
 /* 
-1. b_cnt : 게시판 번호
-
-2. get_boardInfo
-
-3. (b_cnt) -> RestApi
-
-4. Store 저장
-  - 현재 url
-  - 게시판 번호
-  - 번호에 해당 하는 정보 
+- get_boardInfo
+- (boardNumber) -> RestApi("/board/detail")
+- 게시글 정보 요청
 */
 
-const get_boardInfo = async (b_Cnt) => {
+const get_boardInfo = async (boardNumber) => {
   const res = await axios.post("/board/detail", {
-    b_Cnt: b_Cnt,
+    b_Cnt: boardNumber,
   });
   store.commit("setUrl", "detail");
-  store.commit("setCnt", b_Cnt);
+  store.commit("setCnt", boardNumber);
   store.commit("setBoardInfo", res.data);
   router.push("/board");
 };
 
 /*
-2. onMounted 
-
-3. (now, count) -> RestAPI
-
-4. 게시판 정보 요청
-    -Store에 저장
-    axios post : 쿼리스트링 불가 get -> post로 변경 
+- (nowPage, boardRowCount) -> RestAPI
+- 게시판 정보 요청
+    axios post : get -> post로 변경 (게시글내용)
 */
 onMounted(async () => {
   const res = await axios.post("/board/boardInfo", {
-    now: now,
-    count: count,
+    now: nowPage,
+    count: boardRowCount,
   });
 
   store.commit("setBoardList", await res.data);

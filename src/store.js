@@ -33,7 +33,7 @@ export const store = new Vuex.Store({
     getBoardList: (state) => {
       return state.boardList;
     },
-    getPageList: (state) => {
+    getPageList: (state) => { 
       return state.pageList;
     },
     getPage: (state) => {

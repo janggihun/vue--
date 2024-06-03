@@ -1,5 +1,5 @@
 <template>
-  <div class="quickContainer">
+  <div class="quickContainer"> 
     <div class="blank"></div>
     <div class="quickBox">퀵박스</div>
     <div class="quickBox">퀵박스</div>

@@ -4,20 +4,10 @@ import { store } from "@/store";
 import axios from "axios";
 
 /*
-1.
-  userId  : 로그인아이디
-  userPw  : 비밀번호
-
-2. changeId
-
-3. (userId, userPw) -> RestAPI 
-
-4. 로그인
-
-  로그인 정보 -> Store 저장 
+- LoingId
+- (userId, userPw) -> RestAPI("/login/idcheck") 
 */
-
-const changeId = async () => {
+const LoingId = async () => {
   const $userId = document.getElementById("userId");
   const $userPw = document.getElementById("userPw");
   const res = await axios.post("/login/idcheck", {
@@ -49,7 +39,7 @@ const changeId = async () => {
         <div><input type="password" id="userPw" value="" /></div>
       </div>
 
-      <div class="column"><button @click="changeId">로그인</button></div>
+      <div class="column"><button @click="LoingId">로그인</button></div>
       <div class="column">
         <div class="left">회원가입</div>
         <div>아이디/비밀번호찾기</div>

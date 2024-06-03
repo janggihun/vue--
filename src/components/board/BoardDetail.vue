@@ -4,48 +4,33 @@ import { computed, ref } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
 import router from "@/router";
-/*
-boardMap : 게시글 정보
-b_writer : 글쓴이
-attachedList : 첨부리스트
-userId: 로그인 아이디
-update : 업데이트 확인용 ref
-reply : 관리자 답변내용
-inputData : 업데이트시 게시글 변경 내용
-*/
+
 const store = useStore();
 const boardInfo = store.getters.getBoardInfo;
+
 const boardMap = boardInfo.boardMap;
-const b_writer = boardMap.b_writer;
+const boardWriter = boardMap.b_writer;
 const attachedList = boardInfo.attachedList;
 const userId = store.getters.getUserId;
 const update = ref(0);
-let reply = "";
+let inputReply = "";
 let inputData = "";
 
+const reply_coment = (e) => {
+  inputReply = e.target.value;
+};
 const updateCheck = computed(() => {
   return update;
 });
 console.log(updateCheck);
 /*
-1.
-cnt : 게시글번호 
-num : 첨부번호 
-title : 첨부타이틀
-
-2. downloadFile
-
-3. (cnt, num , title) -> RestAPI -> start client download
-
-4. 파일 다운로드
-
+- (boardNumber, attachedNumber , attachedtTitle) -> RestAPI -> start client download
+- 파일 다운로드
   - 고유저장된 이름을 찾아 download를 시작 
-
 */
-const downloadFile = (cnt, num, title) => {
-  const fileName = cnt + "_" + num + "_" + title;
+const downloadFile = (boardNumber, attachedNumber, attachedtTitle) => {
+  const fileName = boardNumber + "_" + attachedNumber + "_" + attachedtTitle;
   console.log(fileName);
-
   const fileUrl = "/board/download/" + fileName;
   axios({
     method: "get",
@@ -55,7 +40,7 @@ const downloadFile = (cnt, num, title) => {
     const newUrl = window.URL.createObjectURL(new Blob([res.data]));
     const atag = document.createElement("a");
     atag.href = newUrl;
-    atag.download = title;
+    atag.download = attachedtTitle;
     atag.click();
     atag.remove();
     window.URL.revokeObjectURL(newUrl);
@@ -63,35 +48,10 @@ const downloadFile = (cnt, num, title) => {
 };
 
 /*
-1. 
-e : 윈도우이벤트
-
-2. reply_coment
-
-3. (e) -> value
-
-4. input 값 
-*/
-const reply_coment = (e) => {
-  reply = e.target.value;
-};
-
-/*
-1.
-  b_Cnt : 게시글번호
-  b_charge : 답변자
-  b_answer : 답변내용
-  b_replyDate : 답변날짜
-
-2. replySave
-
-3. ()-> RestAPI
-
-4. 답변 업데이트
-
-  - vue의 양뱡향 통신으로 인해 변수값이 자동 저장
+- replySave
+- (boardNumber,userId, boardInputReply, boardDateReply)-> RestAPI("/board/reply")
+- 답변 업데이트
   - 게시글에 답변 저장
-  - 저장후 라우팅
 */
 
 const replySave = () => {
@@ -99,7 +59,7 @@ const replySave = () => {
   let data = {
     b_Cnt: store.getters.getCnt,
     b_charge: userId,
-    b_answer: reply,
+    b_answer: inputReply,
     b_replyDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
   };
   axios({
@@ -113,21 +73,8 @@ const replySave = () => {
   });
 };
 
-/*
-2. updateValidation
-
-3. () -> alert
-
-4.  유효성검사
-
-  update.value값이 1인경우 computed를 통해 리렌더링 시작
-  업데이트 유효성 검사
-  첨부파일변경 >> 첨부 파일변경은 데이터 수정 시에 안하는 경우가 많아 제외
-  
-*/
-
 const updateValidation = () => {
-  if (b_writer === userId) {
+  if (boardWriter === userId) {
     update.value = 1;
   } else {
     alert("변경은 본인만 가능합니다.");
@@ -135,16 +82,9 @@ const updateValidation = () => {
 };
 
 /*
-1.
-  b_Cnt :게시글 번호
-  b_contents : 변경된 게시글 내용
-
-2. updatePage
-
-3. ()=>RestAPI
-
-4. 업데이트
-
+- updatePage
+- (boardNum , boardContents) -> RestAPI("/board/update")
+- 업데이트
 */
 const updatePage = async () => {
   const res = await axios.post("/board/update", {
@@ -157,24 +97,17 @@ const updatePage = async () => {
   }
 };
 /*
-1.
-  b_Cnt : 게시글 번호
-  b_writer : 작성자
-
-2. deletePage
-
-3. (b_Cnt) -> RestAPI
-
-4. 삭제
-
+- deletePage
+- (boardNumber) -> RestAPI("/board/delete")
+- 삭제
   - 로그인 아이디와 작성자가 같을시 삭제 요청
 */
-const deletePage = async (b_Cnt) => {
-  if (b_writer === userId) {
+const deletePage = async (boardNumber) => {
+  if (boardWriter === userId) {
     const res = await axios.delete("/board/delete", {
       params: {
-        b_Cnt,
-        b_writer,
+        b_Cnt: boardNumber,
+        b_writer: boardWriter,
       },
     });
     if (res.data === 1) {
@@ -195,7 +128,7 @@ const deletePage = async (b_Cnt) => {
       <div class="detailTitle">
         <div>{{ store.getters.getCnt }} 번 게시글</div>
         <div></div>
-        <div>작성자 : {{ boardMap.b_writer }}</div>
+        <div>작성자 : {{ BoardWriter }}</div>
       </div>
 
       <div class="detailContents" v-if="update === 0">

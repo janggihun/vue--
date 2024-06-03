@@ -2,103 +2,78 @@
 import axios from "axios";
 import { onMounted, computed } from "vue";
 import { useStore } from "vuex";
-/*
-now : 현재 페이지 번호
-count : 행수
-*/
-const now = 1;
-const count = 10;
+
+const nowPage = 1;
+const boardRowCount = 10;
 const store = useStore();
 
 const pageList = computed(() => store.state.pageList);
 const page = computed(() => store.state.page);
 
 /*
-1.
-    now : 현재 페이지 번호
-    count : 게시글 갯수
-
-2. onMounted
-
-3. (now,count) -> RestApi
-
-4. 페이징리스트
+- onMounted
+- (nowPage,boardRowCount) -> RestApi(/board/pageInfo)
+- hook은 함수불가
  */
 onMounted(async () => {
   const res = await axios.get("/board/pageInfo", {
     params: {
-      now: now,
-      count: count,
+      now: nowPage,
+      count: boardRowCount,
     },
   });
   store.commit("setPageList", await res.data.pageList);
   store.commit("setPage", await res.data.page);
 });
 /*
-1.
-    now : 현재 페이지 번호
-    count : 게시글 갯수
+- getNewPage
+- (nowPage, boardRowCount)-> RestAPI("/board/pageInfo")
+  (nowPage, boardRowCount)-> RestAPI("/board/boardInfo")
 
-2. getNewPage
-
-3.  (now, count)-> RestAPI(게시글)
-    (now, count)-> RestAPI(페이징)
-
-4.  게시글, 페이징
-
-    게시글과 페이징 정보를 Store에 저장
+-  게시글, 페이징 정보
 */
-const getNewPage = async (now) => {
+const getNewPage = async (nowPage) => {
   const res = await axios.get("/board/pageInfo", {
     params: {
-      now: now,
-      count: count,
+      now: nowPage,
+      count: boardRowCount,
     },
   });
   store.commit("setPageList", await res.data.pageList);
   store.commit("setPage", await res.data.page);
 
   const res1 = await axios.post("/board/boardInfo", {
-    now: now,
-    count: count,
+    now: nowPage,
+    count: boardRowCount,
   });
 
   store.commit("setBoardList", await res1.data);
 };
 
 /*
-
-1.  
-    cnt : 페이지 번호
-
-2. clickPage
-
-3.  (cnt) -> Alert
-
-4. 유효성 검사
-
-    페이지의 끝과 처음부분 제어
-
+- clickedPageBtn
+- (pageNumber) -> Alert
+- 첫페이지와 마지막페이지 제어
 */
 
-const clickPage = (cnt) => {
-  if (cnt == 0) {
+const clickedPageBtn = (pageNumber) => {
+  if (pageNumber == 0) {
     if (store.getters.getPage.pre == 0) {
       alert("this is firstPage");
     } else if (store.getters.getPage.next == 0) {
       alert("this is lastPage");
     }
   } else {
-    getNewPage(cnt);
+    getNewPage(pageNumber);
   }
 };
 </script>
 
 <template>
   <div class="pageContainer">
-    <div class="page" @click="clickPage(page.pre)">&lt;&lt;</div>
+    <div class="page" @click="clickedPageBtn(page.pre)">&lt;&lt;</div>
     <div class="page" v-for="(p, i) in pageList" :key="i" @click="getNewPage(p)">{{ p }}</div>
-    <div class="page" @click="clickPage(page.next)">&gt; &gt;</div>
+    <div class="page" @click="clickedPageBtn(page.next)">&gt; &gt;</div>
   </div>
 </template>
 

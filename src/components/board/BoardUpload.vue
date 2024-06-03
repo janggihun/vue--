@@ -3,82 +3,36 @@ import { computed } from "vue";
 import dayjs from "dayjs";
 import { store } from "/src/store.js";
 import axios from "axios";
-/*
 
-title : 글 제목
-contents : 글 내용
-
-*/
-let title = "";
-let contents = "";
+let BoardTitle = "";
+let BoardContents = "";
 
 const fileList = computed(() => store.getters.getfileList);
 store.commit("resetFileList", "");
 
-/*
-
-1. 
-  e : 윈도우이벤트
-
-2. onFileChange
-
-3. (e) -> Store
-
-4. 파일리스트 프론트에 저장
-
-*/
 const onFileChange = (e) => {
   // console.log(e.target.files[0]);
   store.commit("setFileList", e.target.files[0]);
 };
 
-/*
-1. 
-  e : 윈도우이벤트
-
-2. input_title
-
-3. (e) -> value
-
-4. 변수에 값 저장
-
-*/
-const input_title = (e) => {
-  title = e.target.value;
+const input_BoardTitle = (e) => {
+  BoardTitle = e.target.value;
 };
-/*
-1. 
-  e : 윈도우이벤트
 
-2. input_contents
-
-3. (e) -> value
-
-4. 변수에 값 저장
-
-*/
-const input_contents = (e) => {
-  contents = e.target.value;
+const input_BoardContents = (e) => {
+  BoardContents = e.target.value;
 };
 
 /*
-1. 
-  fileList : 첨부파일 리스트
-  formData : Form객체
-  axios 타입 : multipart/form-data 
-2. input_contents
-
-3. (formData) -> RestApi
-
-4. 첨부파일 저장
-
+- registerAttached
+- (formData) -> RestApi("/board/insertAttached")
 */
 const registerAttached = () => {
   const fileList = store.getters.getfileList;
   let formData = new FormData();
   formData.append("b_writer", store.state.userId);
-  formData.append("b_title", title);
-  formData.append("b_contents", contents);
+  formData.append("b_title", BoardTitle);
+  formData.append("b_contents", BoardContents);
   formData.append("b_date", dayjs().format("YYYY-MM-DD HH:mm:ss"));
   fileList.forEach((el) => {
     formData.append("files", el);
@@ -100,21 +54,12 @@ const registerAttached = () => {
 };
 
 /*
-
-1. 
-
-  i : 첨부파일 인덱스
-
-2. remove
-
-3. (i) -> Store
-
-4. 프론트에 저장된 첨푸파일목록 삭제
-
+- (fileIndex) -> Store
+- 클라이언트에 저장된 첨푸파일목록 삭제
 */
 
-const remove = (i) => {
-  store.commit("removeFileList", i);
+const fileListRemove = (fileIndex) => {
+  store.commit("removeFileList", fileIndex);
 };
 </script>
 
@@ -123,12 +68,12 @@ const remove = (i) => {
     <div class="detailContanier">
       <div class="detailTitle">
         <div>게시글 작성 페이지입니다.</div>
-        <div>제목 : <input type="text" @input="input_title" /></div>
+        <div>제목 : <input type="text" @input="input_BoardTitle" /></div>
         <div>작성자 : {{ store.getters.getUserId }}</div>
       </div>
       <div class="detailContents">
         <div class="con_left">내용</div>
-        <input type="text" @input="input_contents" class="con_right" />
+        <input type="text" @input="input_BoardContents" class="con_right" />
       </div>
       <div class="attachedBox">
         <div class="attached_left">첨부파일 :</div>
@@ -138,7 +83,7 @@ const remove = (i) => {
         <div class="remove">
           <div v-for="(el, i) in fileList" :key="i" class="fileList">
             {{ el.name.length > 3 ? `${el.name.slice(0, 3)}...` : el.name }}
-            <a href="#" @click="remove(i)"> 삭제 , </a>
+            <a href="#" @click="fileListRemove(fileIndex)"> 삭제 , </a>
           </div>
         </div>
       </div>

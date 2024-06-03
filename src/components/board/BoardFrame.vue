@@ -5,11 +5,9 @@ import BoardLegend from "/src/components/board/BoardLegend.vue";
 </script>
 
 <template>
-  <!-- 보드메인 -->
   <div class="boardMain">
     <BoardTittle />
     <BoardLegend />
-
     <div class="boardBottom">
       <BoardSearch />
     </div>

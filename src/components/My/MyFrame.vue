@@ -4,7 +4,6 @@ import MyLogin from "/src/components/My/MyLogin.vue";
 </script>
 
 <template>
-  <!-- 보드메인 -->
   <div class="boardMain">
     <MyTittle />
     <MyLogin />

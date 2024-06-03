@@ -4,21 +4,12 @@ import router from "@/router";
 import { store } from "@/store";
 import axios from "axios";
 import { defineModel } from "vue";
-/*
-  nowId : input 양방향 데이터
-*/
-const nowId = defineModel();
+
+const inputId = defineModel();
 
 /*
-1.
-  userId : 아이디
-  userPw : 비밀번호
-
-2. signUpId
-
-3. (userId , userPw) -> RestAPI
-
-4. 회원가입
+- signUpId
+- (userId , userPw) -> RestAPI("/insert")
 */
 const signUpId = async () => {
   const $flag = document.getElementById("flag");
@@ -40,44 +31,33 @@ const signUpId = async () => {
   }
 };
 /*
-1.
-  e : 윈도우 이벤트
-  nowId : input 데이터
-
-2. checkId
-
-3. (nowId)-> RestAPI
-
-4. 회원가입 아이디 중복확인
-
+- checkId
+- (inputId)-> RestAPI("/signup/idcheck")
 */
 const checkId = async (e) => {
-  nowId.value = e.target.value;
+  inputId.value = e.target.value;
   const res = await axios.post("/signup/idcheck", {
     userId: e.target.value,
   });
   if (res.data == 0) {
-    nowId.value = "회원가입가능";
+    inputId.value = "회원가입가능";
   } else {
-    nowId.value = "아이디중복";
+    inputId.value = "아이디중복";
   }
 };
 </script>
 
 <template>
-  <!-- 보드메인 -->
   <div class="boardMain">
     <MyTittle />
     <div>회원가입 페이지 입니다.</div>
-
     <div class="boardContainer">
-      <!-- //for문 -->
       <div class="loginBox">
         <div class="column">
           <div class="left">아이디</div>
           <div><input type="text" id="userId" value="" @input="checkId" /></div>
         </div>
-        <div id="flag">{{ nowId }}</div>
+        <div id="flag">{{ inputId }}</div>
         <div class="column">
           <div class="left">패스워드</div>
           <div><input type="password" id="userPw" value="" /></div>

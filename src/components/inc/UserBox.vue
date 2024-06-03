@@ -2,18 +2,13 @@
 import router from "/src/router/index.js";
 import { store } from "@/store";
 /* 
-1. where : 해당 url
-
-2. goPage
-
-3. (where) -> router
-
-4.  해당 url로 이동
-    필요시 Store-url 적용
+- goPage
+- (url) -> router
+- 필요시 Store-url 적용
 */
 
-const goPage = (where) => {
-  switch (where) {
+const goPage = (url) => {
+  switch (url) {
     case "home":
       router.push("/");
       break;
